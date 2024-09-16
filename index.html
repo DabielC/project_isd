@@ -105,17 +105,19 @@
                         if (detections) {
                             const context = canvas.getContext('2d');
                             const { x, y, width, height } = detections.box;
-                            canvas.width = width;
-                            canvas.height = height;
+                            
+                            // Set canvas size to 224x224
+                            canvas.width = 224;
+                            canvas.height = 224;
                             
                             // Flip the captured image horizontally
-                            context.translate(width, 0);
+                            context.translate(224, 0);
                             context.scale(-1, 1);
                             
-                            // Draw the flipped image
-                            context.drawImage(video, x, y, width, height, 0, 0, width, height);
+                            // Draw the image and resize it to 224x224
+                            context.drawImage(video, x, y, width, height, 0, 0, 224, 224);
                             const imageUrl = canvas.toDataURL('image/png');
-        
+                            
                             Swal.fire({
                                 title: 'Captured Photo',
                                 imageUrl: imageUrl,
@@ -125,7 +127,9 @@
                         } else {
                             Swal.fire('Error', 'No face detected', 'error');
                         }
+                        
                     });
+                    
                 },
                 willClose: () => {
                     const video = document.querySelector('#video');
