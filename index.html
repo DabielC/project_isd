@@ -11,73 +11,77 @@
     <title>project_isd</title>
     <style>
         .typewriter {
-            overflow: hidden; /* Ensures the content is hidden */
-            white-space: nowrap; /* Prevents text from wrapping */
+            overflow: visible;
+            white-space: nowrap;
             font-family: 'Orbitron', sans-serif;
         }
-        
+
         @keyframes typing {
             from { width: 0; }
             to { width: 100%; }
         }
-        
+
         .line {
             display: block;
-            overflow: hidden;
+            overflow: visible;
             white-space: nowrap;
-            font-size: 5rem; /* Adjust font size as needed */
-            animation: typing 2s steps(30, end) forwards;
+            animation: typing 1.2s steps(30, end) forwards;
+            line-height: 1.5;
         }
-        
+
         .line:nth-of-type(2) {
-            opacity: 0; /* Initially hide the second line */
-            animation: typing 2s steps(30, end) forwards;
-            animation-delay: 2s;
+            opacity: 0;
+            animation: typing 1.2s steps(30, end) forwards;
+            animation-delay: 1.2s;
             transition: opacity 0.5s ease;
         }
+
         .slogan {
-            margin-top: 20px; /* Adjust spacing between the main title and the slogan */
+            margin-top: 20px;
             font-family: 'Orbitron', sans-serif;
-            font-size: 1.2rem; /* Smaller font size for the slogan */
-            line-height: 1.2; /* Line height adjustment for better readability */
+            line-height: 1.2;
         }
-        
+
         .slogan-line {
-            overflow: hidden; /* Ensures the content is hidden */
-            white-space: nowrap; /* Prevents text from wrapping */
-            display: inline-block; /* Ensures proper spacing */
-            animation: typing 4s steps(40, end) forwards; /* Adjust the duration and steps as needed */
-        }
-        
-        .slogan-line:nth-of-type(2) {
-            animation-delay: 4s; /* Delay for the second line to start typing */
+            overflow: visible;
+            white-space: nowrap;
+            display: inline-block;
+            animation: typing 2s steps(40, end) forwards;
         }
     </style>
 </head>
 <body>
-    <!-- background -->
-    <div class="flex h-screen bg-white">
+    <div class="flex flex-col-reverse md:flex-row h-screen bg-slate-950">
         <div class="flex-1 bg-slate-950 flex justify-center items-center">
-            <div class="text-white text-center leading-relaxed typewriter">
-                <div class="line">Skin Tone</div>
-                <div class="line">Matcher</div>
-                <div class="slogan">
-                    <div class="slogan-line">Unlock Your Best Shade with Precision Skin Tone </div>
+            <div class="text-white text-center typewriter px-4 sm:px-8">
+                <div class="sm:text-2xl md:text-4xl lg:text-7xl">
+                    <div class="line leading-loose">Face & Frame</div>
+                    <div class="line">Matcher</div>
+                </div>
+                <div class="slogan mt-4">
+                    <div class="slogan-line text-sm sm:text-md md:text-lg lg:text-xl">
+                        Match Your Face with the Ideal Frame
+                    </div>
                 </div>
                 <br><br>
                 <div class="relative flex justify-end">
-                    <a href="input.html" class="inline-flex text-white text-lg font-semibold border-b border-white relative">
+                    <a href="input.html"
+                       class="inline-flex items-center text-white text-sm sm:text-base md:text-lg font-semibold border-b border-white relative
+                       px-3 sm:px-4 py-2 transition-transform duration-200 ease-in-out transform hover:-translate-y-1
+                       hover:shadow-lg active:translate-y-0.5 active:shadow-md">
                         Start
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 ml-2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                             class="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 ml-2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"/>
                         </svg>
                     </a>
                 </div>
             </div>
         </div>
-    
-        <!-- Image on the right -->
-        <div class="flex-1 bg-cover bg-center" style="background-image: url('https://i.etsystatic.com/40274243/r/il/0fb1e8/4610173301/il_1588xN.4610173301_9nmm.jpg');"></div>
+
+        <div class="flex-1 bg-cover bg-center h-auto"
+             style="background-image: url('https://i.etsystatic.com/40274243/r/il/0fb1e8/4610173301/il_1588xN.4610173301_9nmm.jpg');">
+        </div>
     </div>
     
     <script>
@@ -85,21 +89,18 @@
             const line1 = document.querySelector('.line:nth-of-type(1)');
             const line2 = document.querySelector('.line:nth-of-type(2)');
             const sloganLines = document.querySelectorAll('.slogan-line');
-        
-            // Calculate the duration of the first line's animation
-            const typingDuration = 2000; // 2s for the typing animation
-            
-            // Set a timeout to show the second line after the first line finishes
+
+            const typingDuration = 1200;
+
             setTimeout(() => {
                 line2.style.opacity = 1;
             }, typingDuration);
-            
-            // Set a timeout to start the slogan animation after the main title finishes
+
             setTimeout(() => {
                 sloganLines.forEach((line, index) => {
-                    line.style.animationPlayState = 'running'; // Start typing animation for slogan lines
+                    line.style.animationPlayState = 'running';
                 });
-            }, typingDuration + 200); // Adjust timing as needed
+            }, typingDuration + 250);
         });
     </script>
 </body>

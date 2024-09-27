@@ -9,6 +9,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/@vladmandic/face-api/dist/face-api.min.js"></script>
+    
     <title>input</title>
     <style>
         video {
@@ -92,20 +93,19 @@
 
 <body>
     <div class="flex h-screen bg-slate-950">
-        <div class="flex flex-col items-center justify-center w-[45%]">
-            <img
-                src="https://media.discordapp.net/attachments/1174400154737053707/1285481145542119458/clothing.png?ex=66ea6d1c&is=66e91b9c&hm=bd6a9e8504af795a6ecd00e5c698fa87d240741f0bde0b987fe5ee16e8e27b4b&=&format=webp&quality=lossless&width=700&height=700">
+        <div class="flex flex-col items-center justify-center h-screen hidden md:block">
+            <img src="glasses.jpg" class="h-full object-cover">
         </div>
 
-        <div class="w-[55%]">
-            <div class="text-white text-7xl pt-16 pb-5">
-                <h1 class="leading-relaxed fade-in">Unlock Your Perfect Skin Tone</h1>
+        <div class="flex flex-col w-full lg:w-1/2 pl-10 lg:pl-20  bg-slate-950">
+            <div class="text-white text-5xl md:text-5xl lg:text-7xl pt-10 lg:pt-15 pb-7">
+                <h1 class="leading-relaxed fade-in">Unlock Your Perfect Frame</h1>
             </div>
-
-            <!-- open camera -->
-            <div class="flex justify-start items-center ml-10 mt-8" id="Cam">
+    
+            <!-- Open camera -->
+            <div class="flex justify-center lg:justify-start items-center mx-4 mt-8">
                 <button type="button"
-                    class="w-2/3 text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-lg px-8 py-4 text-center inline-flex items-center dark:focus:ring-gray-600 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 me-2 mb-2"
+                    class="w-full lg:w-2/3 text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg px-8 py-4 text-center inline-flex items-center dark:focus:ring-gray-600 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 me-2 mb-5"
                     id="btn-start-camera" onclick="openCamera()">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
                         stroke="currentColor" class="w-6 h-6">
@@ -114,18 +114,18 @@
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0ZM18.75 10.5h.008v.008h-.008V10.5Z" />
                     </svg>
-                    <span class="text-lg ml-5">Open Camera</span>
+                    <span class="sm:text-sm  md:text-sm lg:text-lg ml-5">Open Camera</span>
                 </button>
             </div>
-
-            <!-- upload file -->
-            <div class="flex justify-start items-center ml-10 mt-10" id="Upload">
+    
+            <!-- Upload file -->
+            <div class="flex justify-center lg:justify-start items-center mx-4 mt-10">
                 <label for="dropzone-file"
-                    class="w-2/3 text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-lg px-8 py-4 text-center inline-flex items-center dark:focus:ring-gray-600 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 me-2 mb-2 cursor-pointer">
+                    class="w-full lg:w-2/3 text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg px-8 py-4 text-center inline-flex items-center dark:focus:ring-gray-600 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 me-2 mb-2 cursor-pointer">
                     <svg class="w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
                     </svg>
-                    <span class="text-lg ml-3">Click to upload</span>
+                    <span class="sm:text-sm md:text-sm lg:text-lg ml-3">Click to upload</span>
                 </label>
                 <input id="dropzone-file" type="file" class="hidden" onchange="fileToImage(event)" />
             </div>
@@ -140,11 +140,12 @@
         async function openCamera() {
             Swal.fire({
                 title: 'Access Your Camera',
-                html: `
+                html:`
                     <video id="video" autoplay></video>
                     <button id="capture-btn">Capture Photo</button>
                     <canvas id="canvas" style="display:none;"></canvas>
-                `,
+                    `
+                ,
                 didOpen: async () => {
                     const video = document.querySelector('#video');
                     const canvas = document.querySelector('#canvas');
@@ -188,8 +189,8 @@
                             const { x, y, width, height } = detections.box;
 
                             // Set canvas size to 224x224
-                            canvas.width = 224;
-                            canvas.height = 224;
+                            canvas.width = 190;
+                            canvas.height = 250;
 
                             // Flip the captured image horizontally
                             context.translate(224, 0);
@@ -207,9 +208,9 @@
                                 imageUrl: imageUrl,
                                 imageAlt: 'Captured Photo',
                                 confirmButtonText: 'OK',
-                                denyButtonText: `<button><svg width="1.5rem" height="1.5rem" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                                denyButtonText: <button><svg width="1.5rem" height="1.5rem" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
         <path fill="#FFFFFF" d="M10.7667,0.493645 C9.11991,-0.113331 7.31921,-0.161915 5.64208,0.355379 C4.48206,0.713177 3.42569,1.32796 2.54743,2.14597 L1.70711,1.30564 C1.07714,0.675676 0,1.12184 0,2.01275 L0,6.00002 L3.98727,6.00002 C4.87818,6.00002 5.32434,4.92288 4.69438,4.29291 L3.96284,3.56137 C4.61101,2.97184 5.38443,2.52782 6.23156,2.26653 C7.4894,1.87856 8.83993,1.915 10.075,2.37023 C11.3101,2.82547 12.3612,3.67423 13.0664,4.78573 C13.7716,5.89723 14.0916,7.20978 13.9773,8.52112 C13.863,9.83246 13.3206,11.0698 12.4337,12.0425 C11.5469,13.0152 10.3647,13.6693 9.06949,13.9039 C7.77425,14.1385 6.43779,13.9407 5.26607,13.3409 C4.09434,12.7412 3.15236,11.7727 2.5853,10.5848 C2.34738,10.0864 1.75046,9.8752 1.25205,10.1131 C0.753645,10.351 0.542478,10.948 0.7804,11.4464 C1.53649,13.0302 2.79245,14.3215 4.35475,15.1213 C5.91706,15.921 7.699,16.1847 9.42598,15.8719 C11.153,15.559 12.7291,14.687 13.9116,13.39 C15.0941,12.0931 15.8173,10.4433 15.9698,8.69483 C16.1222,6.94637 15.6954,5.1963 14.7552,3.7143 C13.815,2.2323 12.4135,1.10062 10.7667,0.493645 Z"/>
-        </svg></button>`,
+        </svg></button>,
                             }).then((result) => {
                                 // show Download
                                 if (result.isConfirmed) {
