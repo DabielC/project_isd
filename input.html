@@ -185,7 +185,6 @@
                             if (result.isConfirmed) {
                                 const link = document.createElement('a');
                                 link.href = imageUrl;
-                                link.download = 'image.jpg';
                                 link.click();
                             } else if (result.isDenied) {
                                 openCamera();
@@ -224,8 +223,5 @@
             }
         }
     </script>
-    
-    
 </body>
-
 </html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/@vladmandic/face-api/dist/face-api.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Result</title>
+</head>
+<body class="bg-slate-950" style="font-family: 'Orbitron', sans-serif;">
+    <div class="text-white text-center pt-10 text-7xl">
+        Result
+    </div>
+
+    <div class="grid grid-cols-3 gap-4 w-3/4 mx-auto pt-10 text-white">
+        <div class="text-2xl">
+            YOLO
+            <canvas id="yolo-chart" class="bg-white rounded-lg mt-5"></canvas>
+        </div>
+        <div class="text-2xl">
+            MobileNet
+            <canvas id="mobilenet-chart" class="bg-white rounded-lg mt-5"></canvas>
+        </div>
+        <div class="text-2xl">
+            ResNet
+            <canvas id="resnet-chart" class="bg-white rounded-lg mt-5"></canvas>
+        </div>
+    </div>
+
+    <div class="text-white text-center mt-10 text-2xl">
+        Your face shape is <span id="face-shape-result"></span>
+    </div>
+
+    <script>
+        // Fetch prediction results automatically when page loads
+        window.onload = function() {
+            fetch('http://localhost:8000/predict', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ input: 'sample_input_data' }) // แทนที่ข้อมูล input ที่ต้องการ
+            })
+            .then(response => response.json())
+            .then(data => {
+                // หาค่าที่ซ้ำกันมากที่สุดจาก YOLO, MobileNet และ ResNet
+                const modelResults = [data.yolo.shape, data.mobilenet.shape, data.resnet.shape];
+                const mostCommonShape = findMostCommonShape(modelResults);
+        
+                // แสดงผลลัพธ์ใน HTML
+                document.getElementById('face-shape-result').textContent = `Your face shape is ${mostCommonShape}`;
+        
+                // แสดงกราฟผลลัพธ์ของแต่ละโมเดล
+                createBarChart('yolo-chart', data.yolo.results, 'YOLO');
+                createBarChart('mobilenet-chart', data.mobilenet.results, 'MobileNet');
+                createBarChart('resnet-chart', data.resnet.results, 'ResNet');
+            })
+            .catch(error => {
+                console.error('Error fetching prediction results:', error);
+            });
+        };
+        
+
+        // Function to create bar charts
+        function createBarChart(canvasId, modelData, modelName) {
+            const ctx = document.getElementById(canvasId).getContext('2d');
+            const labels = ['Class 1', 'Class 2', 'Class 3', 'Class 4', 'Class 5']; // แทนชื่อคลาสของแต่ละโมเดล
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: modelName + ' Prediction Results',
+                        data: modelData || [0, 0, 0, 0, 0], // ข้อมูลจาก API หรือค่าเริ่มต้นเป็น 0
+                        backgroundColor: [
+                            'rgba(54, 162, 235, 0.6)',
+                            'rgba(75, 192, 192, 0.6)',
+                            'rgba(255, 206, 86, 0.6)',
+                            'rgba(153, 102, 255, 0.6)',
+                            'rgba(255, 159, 64, 0.6)'
+                        ],
+                        borderColor: [
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+        function findMostCommonShape(modelResults) {
+        const counts = {};
+
+        modelResults.forEach(result => {
+            counts[result] = (counts[result] || 0) + 1;
+        });
+
+        let mostCommonShape = null;
+        let maxCount = 0;
+        for (const shape in counts) {
+            if (counts[shape] > maxCount) {
+                mostCommonShape = shape;
+                maxCount = counts[shape];
+            }
+        }
+
+        return mostCommonShape;
+}
+
+    </script>
+</body>
+</html>
