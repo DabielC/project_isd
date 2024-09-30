@@ -97,7 +97,7 @@ def predict_MobileNet(image_tensor):
     model = models.mobilenet_v3_large()
     num_features = model.classifier[3].in_features
     model.fc = nn.Linear(num_features, 5)
-    model.load_state_dict(torch.load("model/mobilenet_casia_web_face_augmentation/model_MobileNetV3_Greyscal_Augment.pt", map_location=torch.device('cpu')), strict=False)
+    model.load_state_dict(torch.load("https://drive.google.com/file/d/1FpMmRSeLrUGitUD-bBIgMt6qDB4Sfkaw/view?usp=drive_link", map_location=torch.device('cpu')), strict=False)
     model.eval()
 
     # Initialize and fit the LabelEncoder
@@ -118,7 +118,7 @@ def predict_MobileNet(image_tensor):
     return predicted_class_label, confidence_mapping
 
 def predict_YOLO(image):
-    model = YOLO('model/yolov8_imagenet/trained_yolov8x-cls_2 (1).pt')
+    model = YOLO('https://drive.google.com/file/d/13IEnHw4mKOlkj9CBq7uxKXNmaIozBUwp/view?usp=drive_link')
     results = model(image)
 
     predicted_class_index = results[0].probs.top1
