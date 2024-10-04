@@ -12,9 +12,12 @@ from sklearn.preprocessing import LabelEncoder
 from ultralytics import YOLO
 import matplotlib.pyplot as plt
 import numpy as np
+from fastapi.middleware.cors import CORSMiddleware
+
+
 
 def face_crop(image):
-    model = YOLO('https://github.com/akanametov/yolov8-face/releases/download/v0.0.0/yolov8l-face.pt')
+    model = YOLO('model/face_crop/yolov8l-face (1).pt')
     
     desired_size = (190, 250)
     padding_factor = 0.1
@@ -45,9 +48,7 @@ def face_crop(image):
         
         return crop_obj_resized
     else:
-        print("No objects detected")
-    
-    return None
+        return None
  
 
 def base64_to_image(base64_string):
@@ -66,38 +67,13 @@ def transform_image(image):
         transforms.Normalize(mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5))
     ])
     return transform(image)
-    
-
-def predict_ResNet(image_tensor):
-    # Initialize the model
-    model = models.resnet50()
-    model.fc = nn.Linear(2048, 5)
-    model.load_state_dict(torch.load("model_2.pt", map_location=torch.device('cpu')), strict=False)
-    model.eval()
-
-    # Initialize and fit the LabelEncoder
-    label_encoder = LabelEncoder()
-    label_encoder.fit(['Oblong', 'Round', 'Oval', 'Heart', 'Square'])
-    model.eval()
-    
-    with torch.no_grad():
-        image_tensor = image_tensor.unsqueeze(0)
-        outputs = model(image_tensor)
-
-        confidences = F.softmax(outputs, dim=1)
-        predicted_class_index = torch.argmax(confidences, dim=1).item()
-        predicted_class_label = label_encoder.inverse_transform([predicted_class_index])[0]
-        confidence_scores = confidences.squeeze().tolist()
-        confidence_mapping = {label: score for label, score in zip(label_encoder.classes_, confidence_scores)}
-        
-    return predicted_class_label, confidence_mapping
 
 def predict_MobileNet(image_tensor):
     # Initialize the model
     model = models.mobilenet_v3_large()
     num_features = model.classifier[3].in_features
     model.fc = nn.Linear(num_features, 5)
-    model.load_state_dict(torch.load("https://drive.google.com/file/d/1FpMmRSeLrUGitUD-bBIgMt6qDB4Sfkaw/view?usp=drive_link", map_location=torch.device('cpu')), strict=False)
+    model.load_state_dict(torch.load("model/mobilenet_casia_web_face_augmentation/model_MobileNetV3_Greyscal_Augment.pt", map_location=torch.device('cpu')), strict=False)
     model.eval()
 
     # Initialize and fit the LabelEncoder
@@ -115,10 +91,10 @@ def predict_MobileNet(image_tensor):
         confidence_scores = confidences.squeeze().tolist()
         confidence_mapping = {label: score for label, score in zip(label_encoder.classes_, confidence_scores)}
         
-    return predicted_class_label, confidence_mapping
+    return [predicted_class_label, confidence_mapping]
 
 def predict_YOLO(image):
-    model = YOLO('https://drive.google.com/file/d/13IEnHw4mKOlkj9CBq7uxKXNmaIozBUwp/view?usp=drive_link')
+    model = YOLO('model/yolov8_imagenet/trained_yolov8x-cls_2 (1).pt')
     results = model(image)
 
     predicted_class_index = results[0].probs.top1
@@ -129,55 +105,50 @@ def predict_YOLO(image):
         dict[results[0].names[i]] = prob
     return predicted_class_name, dict
 
+def vote(mobile_pred, yolo_pred):
+    mobile_conf = mobile_pred[1]
+    yolo_conf = yolo_pred[1]
+    average_score = {
+        'Heart': (yolo_conf['Heart'] + mobile_conf['Heart']) / 2,
+        'Oblong': (yolo_conf['Oblong'] + mobile_conf['Oblong']) / 2,
+        'Oval': (yolo_conf['Oval'] + mobile_conf['Oval']) / 2,
+        'Round': (yolo_conf['Round'] + mobile_conf['Round']) / 2,
+        'Square': (yolo_conf['Square'] + mobile_conf['Square']) / 2
+    }
+
+    voted_class = max(average_score, key=average_score.get)
+    
+    return [voted_class, average_score]
+
+
+
 class get_info(BaseModel):
-    model : str
     image: str
+
 
 app = FastAPI()
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://127.0.0.1:5500"],  # Allow your frontend origin
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 @app.post("/predict/")
 async def predicted(info: get_info):
-    if info.model == "test_face_crop":
-        cropped_face = face_crop(base64_to_image(info.image))
-
-        if cropped_face:
-            # Convert PIL Image to numpy array
-            cropped_face = np.array(cropped_face)
-            
-            # Reshape the array to (3, 190, 250)
-            cropped_face = np.transpose(cropped_face, (2, 0, 1))
-            
-            # Create a figure and axis
-            fig, ax = plt.subplots()
-            
-            # Display the image
-            # We need to transpose back for correct display
-            ax.imshow(np.transpose(cropped_face, (1, 2, 0)))
-            
-            # Remove axis ticks
-            ax.set_xticks([])
-            ax.set_yticks([])
-            
-            # Set a title
-            ax.set_title("Cropped Face")
-            plt.show()
-    elif info.model[:5] == "other":
-        image_tensor = transform_image(face_crop(base64_to_image(info.image)))
-        print(image_tensor.shape)
-        if info.model == "other:mobilenet":
-            predicted_class, class_confidences = predict_MobileNet(image_tensor)
-            
-            print(f"Predicted class: {predicted_class}")
-            print(f"Confidence scores: {class_confidences}")
-            
-            return {
-                "predicted_class": predicted_class,
-                "confidence_scores": class_confidences
-            }
-    elif info.model == "yolov8":
-        predicted_class = predict_YOLO(face_crop(base64_to_image(info.image)))
+    face_detect = face_crop(base64_to_image(info.image))
+    if face_detect != None:
+        image_tensor = transform_image(face_detect)
+        predicted_mobile = predict_MobileNet(image_tensor)
+        predicted_yolo = predict_YOLO(face_detect)
         return {
-            "predicted_class": predicted_class[0],
-            "confidence_scores": predicted_class[1]
+            "mobilenet" : [predicted_mobile[0], predicted_mobile[1]],
+            "yolov8" : [predicted_yolo[0], predicted_yolo[1]],
+            "vote" : vote(predicted_mobile, predicted_yolo)
         }
+    else:
+        return "No face Detected!"
+
 
