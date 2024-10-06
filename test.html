@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta charset="UTF-8">
@@ -11,119 +12,227 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/@vladmandic/face-api/dist/face-api.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <title>Result</title>
 </head>
+
 <body class="bg-slate-950" style="font-family: 'Orbitron', sans-serif;">
-    <div class="text-white text-center pt-10 text-7xl">
+    <div class="text-white text-center pt-10 text-5xl sm:text-6xl md:text-7xl">
         Result
     </div>
 
-    <div class="grid grid-cols-3 gap-4 w-3/4 mx-auto pt-10 text-white">
-        <div class="text-2xl">
-            YOLO
-            <canvas id="yolo-chart" class="bg-white rounded-lg mt-5"></canvas>
+    <div class="grid grid-cols-1 md:grid-cols-2 w-full md:w-[87%] mt-0 md:mt-10 lg:mt-10 mx-auto text-white">
+        <div class="text-lg md:text-2xl">
+            <canvas id="vote-chart" class="rounded-lg mt-5 w-3/4 mx-auto sm:w-3/4 md:w-4/5 lg:w-4/5"></canvas>
         </div>
-        <div class="text-2xl">
-            MobileNet
-            <canvas id="mobilenet-chart" class="bg-white rounded-lg mt-5"></canvas>
-        </div>
-        <div class="text-2xl">
-            ResNet
-            <canvas id="resnet-chart" class="bg-white rounded-lg mt-5"></canvas>
+        <div class="text-white text-left mt-6 md:mt-0 w-[90%] mx-auto">
+            <div class="mb-10 text-xl sm:text-3xl md:text-3xl lg:text-3xl mt-3">Your face shape is 
+                <span id="face-shape-result" class="text-4xl md:text-6xl font-bold"></span>
+            </div>
+            <div class="text-xl mb-10 sm:text-2xl md:text-2xl lg:text-2xl">Eyeglasses frames</div>
+            <div class="text-md mb-10 sm:text-lg md:text-xl lg:text-xl">The most suitable:</div>
+            <div class="text-md mb-10 sm:text-lg md:text-xl lg:text-xl">Suitable:</div>
         </div>
     </div>
+    
+    <div class="text-center mt-6">
+        <div class="mt-4">
+            <button id="scrollButton" class="mx-auto flex items-center justify-center text-white p-2 hover:text-blue-600 transition duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 md:w-10 md:h-10">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 5.25 7.5 7.5 7.5-7.5m-15 6 7.5 7.5 7.5-7.5" />
+                </svg>
+            </button>
+        </div>
+    </div>
+    
 
-    <div class="text-white text-center mt-10 text-2xl">
-        Your face shape is <span id="face-shape-result"></span>
+    <div id="targetSection">
+        <div class="flex justify-center mt-6">
+        <div class="w-40 sm:w-48 lg:w-64 mx-3 flex flex-col self-start rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] transition duration-300 ease-in-out hover:scale-110">
+            <button data-te-toggle="modal" data-te-ripple-init data-te-ripple-color="light">
+                <img src="https://ev2gx2b4kg5.exactdn.com/wp-content/uploads/2024/07/OCCURA_MS-5-C4_2034-3.jpg?strip=all&lossy=1&ssl=1"
+                    class="rounded-t-lg">
+            </button>
+            <div class="p-4 lg:p-6">
+                
+            </div>
+        </div>
+        <div class="w-40 sm:w-48 lg:w-64 mx-3 flex flex-col self-start rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] transition duration-300 ease-in-out hover:scale-110">
+            <button data-te-toggle="modal" data-te-ripple-init data-te-ripple-color="light">
+                <img src="https://ev2gx2b4kg5.exactdn.com/wp-content/uploads/2024/07/OCCURA_MS-5-C4_2034-3.jpg?strip=all&lossy=1&ssl=1"
+                    class="rounded-t-lg">
+            </button>
+            <div class="p-4 lg:p-6">
+                
+            </div>
+        </div>
+        <div class="w-40 sm:w-48 lg:w-64 mx-3 flex flex-col self-start rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] transition duration-300 ease-in-out hover:scale-110">
+            <button data-te-toggle="modal" data-te-ripple-init data-te-ripple-color="light">
+                <img src="https://ev2gx2b4kg5.exactdn.com/wp-content/uploads/2024/07/OCCURA_MS-5-C4_2034-3.jpg?strip=all&lossy=1&ssl=1"
+                    class="rounded-t-lg">
+            </button>
+            <div class="p-4 lg:p-6">
+                
+            </div>
+        </div>
+        <div class="w-40 sm:w-48 lg:w-64 mx-3 flex flex-col self-start rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] transition duration-300 ease-in-out hover:scale-110">
+            <button data-te-toggle="modal" data-te-ripple-init data-te-ripple-color="light">
+                <img src="https://ev2gx2b4kg5.exactdn.com/wp-content/uploads/2024/07/OCCURA_MS-5-C4_2034-3.jpg?strip=all&lossy=1&ssl=1"
+                    class="rounded-t-lg">
+            </button>
+            <div class="p-4 lg:p-6">
+                
+            </div>
+        </div>
+        <div class="w-40 sm:w-48 lg:w-64 mx-3 flex flex-col self-start rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] transition duration-300 ease-in-out hover:scale-110">
+            <button data-te-toggle="modal" data-te-ripple-init data-te-ripple-color="light">
+                <img src="https://ev2gx2b4kg5.exactdn.com/wp-content/uploads/2024/07/OCCURA_MS-5-C4_2034-3.jpg?strip=all&lossy=1&ssl=1"
+                    class="rounded-t-lg">
+            </button>
+            <div class="p-4 lg:p-6">
+                
+            </div>
+        </div>
+    </div>
+    
+    <section class="bg-white dark:bg-gray-900 py-8 lg:py-16 antialiased">
+        <div class="overflow-hidden shadow-lg mt-5 p-2 mb-5">
+            <div class="mb-4 text-sm text-white text-center">Do you like this?</div>
+        
+            <div class="flex space-x-0 w-1/2 mx-auto">
+            <!-- Like Button -->
+                <button id="likeButton" class="flex-1 flex items-center justify-center hover:bg-gray-600 text-white font-bold py-2 px-4 transition duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6.633 10.25c.806 0 1.533-.446 2.031-1.08a9.041 9.041 0 0 1 2.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 0 0 .322-1.672V2.75a.75.75 0 0 1 .75-.75 2.25 2.25 0 0 1 2.25 2.25c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282m0 0h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 0 1-2.649 7.521c-.388.482-.987.729-1.605.729H13.48c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 0 0-1.423-.23H5.904m10.598-9.75H14.25M5.904 18.5c.083.205.173.405.27.602.197.4-.078.898-.523.898h-.908c-.889 0-1.713-.518-1.972-1.368a12 12 0 0 1-.521-3.507c0-1.553.295-3.036.831-4.398C3.387 9.953 4.167 9.5 5 9.5h1.053c.472 0 .745.556.5.96a8.958 8.958 0 0 0-1.302 4.665c0 1.194.232 2.333.654 3.375Z" />
+                    </svg>
+                </button>
+            
+                <!-- Dislike Button -->
+                <button id="dislikeButton" class="flex-1 flex items-center justify-center hover:bg-gray-600 text-white font-bold py-2 px-4 transition duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M7.498 15.25H4.372c-1.026 0-1.945-.694-2.054-1.715a12.137 12.137 0 0 1-.068-1.285c0-2.848.992-5.464 2.649-7.521C5.287 4.247 5.886 4 6.504 4h4.016a4.5 4.5 0 0 1 1.423.23l3.114 1.04a4.5 4.5 0 0 0 1.423.23h1.294M7.498 15.25c.618 0 .991.724.725 1.282A7.471 7.471 0 0 0 7.5 19.75 2.25 2.25 0 0 0 9.75 22a.75.75 0 0 0 .75-.75v-.633c0-.573.11-1.14.322-1.672.304-.76.93-1.33 1.653-1.715a9.04 9.04 0 0 0 2.86-2.4c.498-.634 1.226-1.08 2.032-1.08h.384m-10.253 1.5H9.7m8.075-9.75c.01.05.027.1.05.148.593 1.2.925 2.55.925 3.977 0 1.487-.36 2.89-.999 4.125m.023-8.25c-.076-.365.183-.75.575-.75h.908c.889 0 1.713.518 1.972 1.368.339 1.11.521 2.287.521 3.507 0 1.553-.295 3.036-.831 4.398-.306.774-1.086 1.227-1.918 1.227h-1.053c-.472 0-.745-.556-.5-.96a8.95 8.95 0 0 0 .303-.54" />
+                    </svg>                      
+                </button>
+            </div>
+        </div>
+        <div class="max-w-2xl mx-auto px-4">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-lg lg:text-2xl font-bold text-gray-900 dark:text-white">Comment</h2>
+            </div>
+            <form class="mb-6">
+                <div class="py-2 px-4 mb-4 bg-white rounded-lg rounded-t-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+                    <label for="comment" class="sr-only">Your comment</label>
+                    <textarea id="comment" rows="6"
+                        class="px-0 w-full text-sm text-gray-900 border-0 focus:ring-0 focus:outline-none dark:text-white dark:placeholder-gray-400 dark:bg-gray-800"
+                        placeholder="Write a comment..." required></textarea>
+                </div>
+                <button type="submit" class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-gray-700 rounded-lg focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-900 hover:bg-gray-800">
+                    Submit
+                </button>
+            </form>
+        </div>
+    </section>
     </div>
 
     <script>
-        // Fetch prediction results automatically when page loads
         window.onload = function() {
-            fetch('http://localhost:8000/predict', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ input: 'sample_input_data' }) // แทนที่ข้อมูล input ที่ต้องการ
-            })
-            .then(response => response.json())
-            .then(data => {
-                // หาค่าที่ซ้ำกันมากที่สุดจาก YOLO, MobileNet และ ResNet
-                const modelResults = [data.yolo.shape, data.mobilenet.shape, data.resnet.shape];
-                const mostCommonShape = findMostCommonShape(modelResults);
-        
-                // แสดงผลลัพธ์ใน HTML
-                document.getElementById('face-shape-result').textContent = `Your face shape is ${mostCommonShape}`;
-        
-                // แสดงกราฟผลลัพธ์ของแต่ละโมเดล
-                createBarChart('yolo-chart', data.yolo.results, 'YOLO');
-                createBarChart('mobilenet-chart', data.mobilenet.results, 'MobileNet');
-                createBarChart('resnet-chart', data.resnet.results, 'ResNet');
-            })
-            .catch(error => {
-                console.error('Error fetching prediction results:', error);
-            });
-        };
-        
+            const urlParams = new URLSearchParams(window.location.search);
+            const dataString = urlParams.get('data'); // Retrieve the stringified data
 
-        // Function to create bar charts
-        function createBarChart(canvasId, modelData, modelName) {
+            console.log('Data String:', dataString);
+
+            if (dataString) {
+                try {
+                    const parsedData = JSON.parse(dataString); // Parse the string back into an object
+                    console.log('Parsed Data:', parsedData);
+
+                    // Display the face shape if provided
+                    if (parsedData.faceShape) {
+                        const faceShapeElement = document.getElementById('face-shape-result');
+                        faceShapeElement.textContent = parsedData.faceShape;
+                    }
+
+                    // Extract score objects from the parsed data
+                    const yoloResult = parsedData.yolov8[1]; // Second element (the score object)
+                    const mobilenetResult = parsedData.mobilenet[1]; // Second element (the score object)
+                    const voteResult = parsedData.vote[1]
+
+                    // Call displayResults with the extracted score objects
+                    displayResults(voteResult);
+                    displayMaxVote(voteResult);
+                } catch (error) {
+                    console.error('Error parsing data:', error);
+                }
+            }
+        };
+
+        function displayResults(voteResult) {
+            // Render the charts for YOLO and MobileNet
+            renderChart('vote-chart', voteResult, 'Vote Result');
+        }
+
+        function displayMaxVote(voteResult) {
+            const maxVoteLabel = Object.keys(voteResult).reduce((a, b) => voteResult[a] > voteResult[b] ? a : b);
+            const maxVoteValue = voteResult[maxVoteLabel];
+
+            const resultElement = document.getElementById('face-shape-result');
+            resultElement.textContent = maxVoteLabel;
+        }
+
+        // Function to render charts using Chart.js
+        function renderChart(canvasId, data, title) {
             const ctx = document.getElementById(canvasId).getContext('2d');
-            const labels = ['Class 1', 'Class 2', 'Class 3', 'Class 4', 'Class 5']; // แทนชื่อคลาสของแต่ละโมเดล
+
+            // Clear previous chart if it exists
+            if (Chart.getChart(canvasId)) {
+                Chart.getChart(canvasId).destroy();
+            }
 
             new Chart(ctx, {
-                type: 'bar',
+                type: 'doughnut',
                 data: {
-                    labels: labels,
+                    labels: Object.keys(data),
                     datasets: [{
-                        label: modelName + ' Prediction Results',
-                        data: modelData || [0, 0, 0, 0, 0], // ข้อมูลจาก API หรือค่าเริ่มต้นเป็น 0
+                        data: Object.values(data),
                         backgroundColor: [
-                            'rgba(54, 162, 235, 0.6)',
-                            'rgba(75, 192, 192, 0.6)',
-                            'rgba(255, 206, 86, 0.6)',
-                            'rgba(153, 102, 255, 0.6)',
-                            'rgba(255, 159, 64, 0.6)'
+                            'rgba(54, 162, 235, 0.8)',
+                            'rgba(255, 99, 132, 0.8)',
+                            'rgba(75, 192, 192, 0.8)',
+                            'rgba(255, 206, 86, 0.8)',
+                            'rgba(153, 102, 255, 0.8)'
                         ],
                         borderColor: [
                             'rgba(54, 162, 235, 1)',
+                            'rgba(255, 99, 132, 1)',
                             'rgba(75, 192, 192, 1)',
                             'rgba(255, 206, 86, 1)',
-                            'rgba(153, 102, 255, 1)',
-                            'rgba(255, 159, 64, 1)'
+                            'rgba(153, 102, 255, 1)'
                         ],
                         borderWidth: 1
                     }]
                 },
                 options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
+                    responsive: false,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top',
+                            labels: {
+                                color: 'rgb(255,255,255)'
+                            },
+                            onClick: (e) => { }
                         }
                     }
                 }
             });
         }
-        function findMostCommonShape(modelResults) {
-        const counts = {};
 
-        modelResults.forEach(result => {
-            counts[result] = (counts[result] || 0) + 1;
+
+        document.getElementById('scrollButton').addEventListener('click', function() {
+            document.getElementById('targetSection').scrollIntoView({ 
+                behavior: 'smooth' 
+            });
         });
-
-        let mostCommonShape = null;
-        let maxCount = 0;
-        for (const shape in counts) {
-            if (counts[shape] > maxCount) {
-                mostCommonShape = shape;
-                maxCount = counts[shape];
-            }
-        }
-
-        return mostCommonShape;
-}
-
     </script>
 </body>
 </html>

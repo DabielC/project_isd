@@ -9,7 +9,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/@vladmandic/face-api/dist/face-api.min.js"></script>
-    
     <title>input</title>
     <style>
         video {
@@ -133,6 +132,7 @@
     </div>
 
     <script>
+        // Function to open camera and capture photo
         async function openCamera() {
             Swal.fire({
                 title: 'Access Your Camera',
@@ -145,7 +145,7 @@
                     const video = document.querySelector('#video');
                     const canvas = document.querySelector('#canvas');
                     const captureBtn = document.querySelector('#capture-btn');
-    
+        
                     // Access user's camera
                     try {
                         const stream = await navigator.mediaDevices.getUserMedia({ video: true });
@@ -154,45 +154,41 @@
                         Swal.fire('Error', 'Unable to access camera: ' + err.message, 'error');
                         return;
                     }
-    
+        
                     // Capture photo when button is clicked
                     captureBtn.addEventListener('click', () => {
                         const context = canvas.getContext('2d');
-                        // Set canvas size to match video dimensions
                         canvas.width = video.videoWidth;
                         canvas.height = video.videoHeight;
-    
+        
                         // Flip the canvas horizontally
-                        context.translate(canvas.width, 0); // Move the context to the right
-                        context.scale(-1, 1); // Flip horizontally
-    
-                        // Draw the video frame to canvas
+                        context.translate(canvas.width, 0);
+                        context.scale(-1, 1);
                         context.drawImage(video, 0, 0);
                         const imageUrl = canvas.toDataURL('image/png');
-    
-                        // Log the Base64 string to console
-                        console.log(imageUrl);
-    
+        
+                        // Display the captured photo
                         Swal.fire({
                             title: 'Captured Photo',
-                            showDenyButton: true,
                             imageUrl: imageUrl,
                             imageAlt: 'Captured Photo',
+                            showDenyButton: true,
                             confirmButtonText: 'OK',
                             denyButtonText: 'Retake',
                         }).then((result) => {
-                            // Show Download
                             if (result.isConfirmed) {
-                                const link = document.createElement('a');
-                                link.href = imageUrl;
-                                link.click();
+        
+                                // Send image data to backend for both yolov8 and mobilenet models
+                                sendImageToBackend(imageUrl);
                             } else if (result.isDenied) {
+                                // Retake the photo
                                 openCamera();
                             }
                         });
                     });
                 },
                 willClose: () => {
+                    // Stop the camera stream when closing the modal
                     const video = document.querySelector('#video');
                     const stream = video.srcObject;
                     if (stream) {
@@ -205,23 +201,61 @@
                 width: '80vw',
             });
         }
-    
+        
+        // Function to handle file upload and convert it to a base64 image
         function fileToImage(event) {
             const input = event.target;
             const file = input.files[0];
-    
+        
             if (file) {
                 const reader = new FileReader();
-    
+        
                 reader.onload = function (e) {
-                    const img = document.getElementById('display');
-                    const imageUrl = e.target.result; // This is the data URL of the image
-                    console.log(imageUrl);
+                    const imageUrl = e.target.result; // This is the base64 string
+        
+                    // Display the image
+                    Swal.fire({
+                        title: 'Uploaded Image',
+                        imageUrl: imageUrl,
+                        imageAlt: 'Uploaded Image',
+                        confirmButtonText: 'OK',
+                    });
+        
+                    // Send the uploaded image data to the backend for both models
+                    sendImageToBackend(imageUrl);
                 };
-    
+        
                 reader.readAsDataURL(file);
             }
         }
-    </script>
+        
+        // Function to send image (base64) to the backend with the specified model
+        function sendImageToBackend(imageUrl) {
+            event.preventDefault()
+
+            const data = {
+                image: imageUrl
+            };
+        
+            fetch('http://127.0.0.1:8000/predict', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(`Success:`, data);
+                    const params = new URLSearchParams({
+                        data: JSON.stringify(data)
+                    });
+                    window.location.href = `test.html?${params.toString()}`;
+                })
+                .catch((error) => {
+                    console.error(`Error from:`, error);
+                });
+        }
+        </script>
 </body>
 </html>
