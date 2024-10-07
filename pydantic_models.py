@@ -5,20 +5,18 @@ from typing import Optional
 class get_info(BaseModel):
     image: str
 
-class update_reflect(BaseModel):
+class update_like(BaseModel):
     id: int
     like : int
+
+class update_comment(BaseModel):
+    id: int
     comment : str
 
 class ItemCreated(get_info):
     pass
 
 #Response
-class ItemResponse(update_reflect):
-    id : int
-    like : int
-    comment : str
-
 class GlassResponse(get_info):
     id: int
     type : str

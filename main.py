@@ -84,15 +84,27 @@ def test_db(db: Session = Depends(get_db)):
     items = db.query(glasses_product).all()
     return items
 
-@app.put("/update_reflection")
-async def update_user_reflection(item: update_reflect, db: Session = Depends(get_db)):
+@app.put("/update_reflection_like")
+async def update_user_reflection(item: update_like, db: Session = Depends(get_db)):
     db_item = db.query(user_reflection).filter(user_reflection.id == item.id).first()
     if db_item:
         for key, value in item.model_dump().items():
             setattr(db_item, key, value)
         db.commit()
         db.refresh(db_item)
-        return 'Update Success!'
+        return 'Update like Success!'
+    else:
+        raise HTTPException(status_code=404, detail="Item not found")
+    
+@app.put("/update_reflection_comment")
+async def update_user_reflection(item: update_comment, db: Session = Depends(get_db)):
+    db_item = db.query(user_reflection).filter(user_reflection.id == item.id).first()
+    if db_item:
+        for key, value in item.model_dump().items():
+            setattr(db_item, key, value)
+        db.commit()
+        db.refresh(db_item)
+        return 'Update comment Success!'
     else:
         raise HTTPException(status_code=404, detail="Item not found")
 
