@@ -7,7 +7,7 @@ class get_info(BaseModel):
 
 class update_like(BaseModel):
     id: int
-    like : int
+    like: Optional[int] = None
 
 class update_comment(BaseModel):
     id: int
