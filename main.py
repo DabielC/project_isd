@@ -63,8 +63,7 @@ async def predicted(info: ItemCreated, db: Session = Depends(get_db)):
                     "yscore": predicted_yolo["score"],
                     "vscore": vote_score,
                     "dt": db_item.create_at,
-                    "products": products,
-                    "image" : info.image
+                    "products": products
                 }
         
         else:
