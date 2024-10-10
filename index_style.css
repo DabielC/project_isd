@@ -1,0 +1,38 @@
+.typewriter {
+    overflow: hidden;
+    white-space: nowrap;
+    font-family: 'Orbitron', sans-serif;
+}
+
+@keyframes typing {
+    from { width: 0; }
+    to { width: 100%; }
+}
+
+.line {
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    animation: typing 1.2s steps(30, end) forwards;
+    line-height: 1.5;
+}
+
+.line:nth-of-type(2) {
+    opacity: 0;
+    animation: typing 1.2s steps(30, end) forwards;
+    animation-delay: 1.2s;
+    transition: opacity 0.5s ease;
+}
+
+.slogan {
+    margin-top: 20px;
+    font-family: 'Orbitron', sans-serif;
+    line-height: 1.2;
+}
+
+.slogan-line {
+    overflow: visible;
+    white-space: nowrap;
+    display: inline-block;
+    animation: typing 2s steps(40, end) forwards;
+}
