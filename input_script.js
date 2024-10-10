@@ -6,6 +6,7 @@ window.onload = function() {
         showCloseButton: true,
         customClass: {
             title: 'swal-title-red',
+            popup: 'swal-font swal-popup',
         }
     });
 };

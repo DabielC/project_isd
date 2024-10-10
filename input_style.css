@@ -1,8 +1,17 @@
 .swal-title-red {
     color: #FF7276; /* เปลี่ยนสีของ title เป็นสีแดง */
+    font-size: 24px;
 }
 
+.swal-font {
+    font-family: 'Orbitron', sans-serif; /* กำหนดฟอนต์ที่ต้องการ */
+}
 
+.swal-popup {
+    width: 500px; /* กำหนดขนาดความกว้างของ popup */
+    max-width: 100%; /* จำกัดไม่ให้ขนาดเกินหน้าจอ */
+    overflow: hidden; /* ป้องกันไม่ให้ข้อความเกิน */
+}
 
 video {
     transform: scaleX(-1);
