@@ -8,7 +8,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/@vladmandic/face-api/dist/face-api.min.js"></script>
-    <link rel="stylesheet" href="index_style.css">
+    <link rel="stylesheet" href="stylesheets\index_style.css">
     <title>project_isd</title>
 </head>
 <body>
@@ -25,6 +25,7 @@
                     </div>
                 </div>
                 <br><br>
+                <!-- start button -->
                 <div class="relative flex justify-end">
                     <a href="input.html"
                        class="inline-flex items-center text-white text-sm sm:text-base md:text-lg font-semibold border-b border-white relative
@@ -40,12 +41,14 @@
             </div>
         </div>
 
+        <!-- picture -->
         <div class="flex-1 bg-cover bg-center h-auto"
              style="background-image: url('https://i.etsystatic.com/40274243/r/il/0fb1e8/4610173301/il_1588xN.4610173301_9nmm.jpg');">
         </div>
     </div>
     
     <script>
+        //animation function
         document.addEventListener('DOMContentLoaded', () => {
             const line1 = document.querySelector('.line:nth-of-type(1)');
             const line2 = document.querySelector('.line:nth-of-type(2)');

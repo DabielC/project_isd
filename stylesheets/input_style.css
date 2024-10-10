@@ -1,0 +1,82 @@
+.swal-title-red {
+    color: #FF7276; /* เปลี่ยนสีของ title เป็นสีแดง */
+}
+
+
+
+video {
+    transform: scaleX(-1);
+}
+
+#video {
+    display: block;
+    margin: 0 auto;
+    width: 100%;
+    /* Full width of the SweetAlert modal */
+    height: auto;
+    max-width: 600px;
+    /* Maximum width of the video */
+}
+
+#capture-btn {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #3085d6;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+h1 {
+    font-family: 'Orbitron', sans-serif;
+    ;
+}
+.fade-in {
+    opacity: 0; /* Start with the text hidden */
+    animation: fadeIn 3s ease-out forwards; /* Apply the animation */
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0; /* Start with opacity 0 */
+    }
+    to {
+        opacity: 1; /* End with opacity 1 */
+    }
+}
+#Cam, #Upload {
+    position: relative; 
+}
+#Cam {
+    animation-name: move;
+    animation-delay: 0ms;
+    animation-duration: 2s;
+}
+
+@keyframes move {
+    0% {
+        left: -200px;
+    }
+
+    100% {
+        left: 0px;
+    }
+}
+
+#Upload {
+    animation-name: move1;
+    animation-delay: 0ms;
+    animation-duration: 2s;
+}
+
+@keyframes move1 {
+    0% {
+        left: 200px;
+    }
+
+    100% {
+        left: 0px;
+    }
+}
