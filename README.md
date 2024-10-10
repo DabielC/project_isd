@@ -12,6 +12,7 @@ Which is classify the face shape of users and match frame to the face shape.
 4. then you can clone our github project into your directory virtual env. (git clone <repository-link>)
 5. you need to download our model folder from this google drive link cause the models too large to push into github.
    https://drive.google.com/drive/folders/1Fc7bL91qameHX9uBq8YXcHNwFabe3h1p?usp=sharing
-6. please run this to start api server ** fastapi run ./API/main.py --host "127.0.0.1" --port 8000
-7. then you can start the web server from any port make sure that you are in the localhost.
-8. Lastly Have fun :) !!
+   then put on your virtual env directory also.
+7. please run this to start api server ** fastapi run ./API/main.py --host "127.0.0.1" --port 8000
+8. then you can start the web server from any port make sure that you are in the localhost.
+9. Lastly Have fun :) !!
