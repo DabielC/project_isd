@@ -8,6 +8,7 @@ Which is classify the face shape of users and match frame to the face shape.
    *and activate the virtual env please run "./your-env-name/Scripts/activate.bat" (if you use Window use .bat if mac use .ps)
 2. then make sure you are in the virtual env
    if you use VScode you can press Shift + Ctrl + P short and type "python: select Interpreter" then select your virtual env.
+3. Make sure you are in the virtual env. (recommend to change terminal and run "pip list" to check that you are in the env if are inside the lib list will that many.)
 3. install the libraries which this application require by run this "pip install -r isd_requirements.txt"
 4. then you can clone our github project into your directory virtual env. (git clone <repository-link>)
 5. you need to download our model folder from this google drive link cause the models too large to push into github.
