@@ -21,5 +21,5 @@ Which is classify the face shape of users and match frame to the face shape.
    https://drive.google.com/drive/folders/1Fc7bL91qameHX9uBq8YXcHNwFabe3h1p?usp=sharing
    then put on your virtual env directory (project_isd) also.
 9. please run this to start api server ** fastapi run ./API/main.py --host "127.0.0.1" --port 8000
-10. then you can start the web server from any port make sure that you are in the localhost.
+10. then you can start the web server on index.html from any port make sure that you are in the localhost.
 11. Lastly Have fun :) !!
