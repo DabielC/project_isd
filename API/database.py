@@ -4,7 +4,7 @@ from sqlalchemy.orm import sessionmaker, Session
 
 
 # Define the database URL for the SQLite database
-SQLALCHEMY_DATABASE_URL = "sqlite:///./../database/isd.db"
+SQLALCHEMY_DATABASE_URL = "sqlite:///././database/isd.db"
 
 # Create an engine that connects to the database
 engine = create_engine(

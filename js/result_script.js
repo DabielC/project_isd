@@ -128,7 +128,7 @@ window.onload = function() {
 function updateReflectionLike(id, likeStatus) {
     event.preventDefault();
     fetch('http://127.0.0.1:8000/update_reflection_like', {
-        method: 'POST',
+        method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
         },
