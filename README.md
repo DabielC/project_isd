@@ -11,11 +11,11 @@ Which is classify the face shape of users and match frame to the face shape.
 3. Make sure you are in the virtual env. (recommend to change terminal and run "pip list" to check that you are in the env if are inside the lib list will not that many.)
 4. then you can clone our github project into your directory virtual env. (git clone https://github.com/DabielC/project_isd.git)
 5. Please change directory also run this bash "cd project_isd"
-   The file Structure should be like this :
-                                             current_directory __
-                                                               |_  project_isd
-                                                                   |_ rest of the files ...
-                                                               |_  your-env-name
+   The file Structure should be like this :</br>
+   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;current_directory ___ </br>
+   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|_  project_isd</br>
+   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|_ rest of the files ... </br>
+   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|_  your-env-name</br>
 7. install the libraries which this application require by run this "pip install -r isd_requirements.txt"
 8. you need to download our model folder from this google drive link cause the models too large to push into github.
    https://drive.google.com/drive/folders/1Fc7bL91qameHX9uBq8YXcHNwFabe3h1p?usp=sharing
